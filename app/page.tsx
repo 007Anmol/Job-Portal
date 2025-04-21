@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, Briefcase, Search, User, CheckCircle, Star, ChevronRight, Mail } from "lucide-react"
@@ -5,64 +7,88 @@ import { ArrowRight, Briefcase, Search, User, CheckCircle, Star, ChevronRight, M
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
+import { WavyBackground } from "@/components/ui/wavy-background"
+import { useState } from "react"
 
 export default function Home() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+
+  const toggleFaq = (index: number) => {
+    setOpenFaq(openFaq === index ? null : index)
+  }
+
   return (
     <div className="min-h-screen bg-background">
+      <style jsx global>{`
+        @keyframes gradient {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animate-gradient-slow {
+          animation: gradient 15s ease infinite;
+        }
+      `}</style>
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 md:py-28">
-        <div className="absolute inset-0 z-0 bg-gradient-to-br from-purple-900/20 to-amber-700/20" />
-        <div className="container relative z-10 mx-auto px-4 sm:px-6">
-          <div className="flex flex-col items-center justify-center space-y-10 text-center">
-            <div className="space-y-4">
-              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-                Find Your{" "}
-                <span className="bg-gradient-to-r from-purple-600 to-amber-500 bg-clip-text text-transparent">
-                  Dream Job
-                </span>
-              </h1>
-              <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                Discover thousands of job opportunities with all the information you need. Manage your profile and
-                applications all in one place.
-              </p>
-            </div>
+      <WavyBackground
+        className="max-w-4xl mx-auto"
+        colors={["#9333ea", "#d946ef", "#f59e0b"]}
+        waveOpacity={0.3}
+        blur={20}
+      >
+        <section className="relative overflow-hidden py-20 md:py-28">
+          <div className="absolute inset-0 z-0 animate-gradient-slow bg-gradient-to-br from-purple-900/20 via-pink-800/20 to-amber-700/20 bg-[length:200%_200%]" />
+          <div className="container relative z-10 mx-auto px-4 sm:px-6">
+            <div className="flex flex-col items-center justify-center space-y-10 text-center">
+              <div className="space-y-4">
+                <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+                  Find Your{" "}
+                  <span className="bg-gradient-to-r from-purple-600 to-amber-500 bg-clip-text text-transparent">
+                    Dream Job
+                  </span>
+                </h1>
+                <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+                  Discover thousands of job opportunities with all the information you need. Manage your profile and
+                  applications all in one place.
+                </p>
+              </div>
 
-            {/* Search Bar */}
-            <div className="mx-auto w-full max-w-3xl">
-              <div className="flex flex-col gap-4 rounded-xl bg-card p-2 shadow-lg sm:flex-row sm:p-1 md:p-2">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    type="text"
-                    placeholder="Job title, keyword, or company"
-                    className="h-12 border-0 pl-10 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                  />
+              {/* Search Bar */}
+              <div className="mx-auto w-full max-w-3xl">
+                <div className="flex flex-col gap-4 rounded-xl bg-card p-2 shadow-lg sm:flex-row sm:p-1 md:p-2">
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                      type="text"
+                      placeholder="Job title, keyword, or company"
+                      className="h-12 border-0 pl-10 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                    />
+                  </div>
+                  <Button size="lg" className="bg-gradient-to-r from-purple-600 to-amber-500 text-white">
+                    Find Jobs <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
                 </div>
-                <Button size="lg" className="bg-gradient-to-r from-purple-600 to-amber-500 text-white">
-                  Find Jobs <ArrowRight className="ml-2 h-4 w-4" />
+                <p className="mt-2 text-center text-sm text-muted-foreground">
+                  Popular: Developer, Designer, Marketing, Remote
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-4 pt-4 sm:flex-row">
+                <Button asChild size="lg" className="bg-gradient-to-r from-purple-600 to-amber-500 text-white">
+                  <Link href="/jobs">
+                    Browse Jobs <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <Link href="/profile">
+                    My Profile <User className="ml-2 h-4 w-4" />
+                  </Link>
                 </Button>
               </div>
-              <p className="mt-2 text-center text-sm text-muted-foreground">
-                Popular: Developer, Designer, Marketing, Remote
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-4 pt-4 sm:flex-row">
-              <Button asChild size="lg" className="bg-gradient-to-r from-purple-600 to-amber-500 text-white">
-                <Link href="/jobs">
-                  Browse Jobs <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link href="/profile">
-                  My Profile <User className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
             </div>
           </div>
-        </div>
-      </section>
-
+        </section>
+      </WavyBackground>
       {/* Stats Section */}
       <section className="border-t border-border/40 py-12">
         <div className="container mx-auto px-4 sm:px-6">
@@ -99,7 +125,7 @@ export default function Home() {
           </div>
 
           <div className="grid gap-8 md:grid-cols-3">
-            <div className="group rounded-xl border border-border bg-card p-6 shadow-sm transition-all duration-200 hover:shadow-lg">
+            <div className="group relative rounded-xl border-2 border-purple-500/30 bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/10">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-amber-500">
                 <Search className="h-6 w-6 text-white" />
               </div>
@@ -119,7 +145,7 @@ export default function Home() {
                 </li>
               </ul>
             </div>
-            <div className="group rounded-xl border border-border bg-card p-6 shadow-sm transition-all duration-200 hover:shadow-lg">
+            <div className="group relative rounded-xl border-2 border-purple-500/30 bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/10">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-amber-500">
                 <Briefcase className="h-6 w-6 text-white" />
               </div>
@@ -139,7 +165,7 @@ export default function Home() {
                 </li>
               </ul>
             </div>
-            <div className="group rounded-xl border border-border bg-card p-6 shadow-sm transition-all duration-200 hover:shadow-lg">
+            <div className="group relative rounded-xl border-2 border-purple-500/30 bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/10">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-amber-500">
                 <User className="h-6 w-6 text-white" />
               </div>
@@ -164,7 +190,9 @@ export default function Home() {
       </section>
 
       {/* How It Works Section */}
-      <section className="bg-gradient-to-br from-purple-900/10 to-amber-700/10 py-20">
+      <section className="relative overflow-hidden bg-gradient-to-br from-purple-900/10 to-amber-700/10 py-20">
+        <div className="absolute -left-20 -top-20 h-40 w-40 rounded-full bg-purple-500/10 blur-3xl"></div>
+        <div className="absolute -bottom-20 -right-20 h-40 w-40 rounded-full bg-amber-500/10 blur-3xl"></div>
         <div className="container mx-auto px-4 sm:px-6">
           <div className="mx-auto mb-16 max-w-2xl text-center">
             <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">How It Works</h2>
@@ -174,8 +202,8 @@ export default function Home() {
           </div>
 
           <div className="grid gap-8 md:grid-cols-4">
-            <div className="relative text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-amber-500 text-2xl font-bold text-white">
+            <div className="relative z-10 rounded-xl bg-card/50 p-6 text-center backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-card hover:shadow-lg">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-amber-500 text-2xl font-bold text-white shadow-lg shadow-purple-500/20 ring-4 ring-white/10">
                 1
               </div>
               <h3 className="mb-2 text-xl font-bold">Create Profile</h3>
@@ -185,8 +213,8 @@ export default function Home() {
               <div className="absolute right-0 top-8 hidden h-0.5 w-full -translate-x-1/2 bg-gradient-to-r from-purple-600 to-amber-500 md:block"></div>
             </div>
 
-            <div className="relative text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-amber-500 text-2xl font-bold text-white">
+            <div className="relative z-10 rounded-xl bg-card/50 p-6 text-center backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-card hover:shadow-lg">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-amber-500 text-2xl font-bold text-white shadow-lg shadow-purple-500/20 ring-4 ring-white/10">
                 2
               </div>
               <h3 className="mb-2 text-xl font-bold">Discover Jobs</h3>
@@ -198,8 +226,8 @@ export default function Home() {
               <div className="absolute right-0 top-8 hidden h-0.5 w-full -translate-x-1/2 bg-gradient-to-r from-purple-600 to-amber-500 md:block"></div>
             </div>
 
-            <div className="relative text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-amber-500 text-2xl font-bold text-white">
+            <div className="relative z-10 rounded-xl bg-card/50 p-6 text-center backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-card hover:shadow-lg">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-amber-500 text-2xl font-bold text-white shadow-lg shadow-purple-500/20 ring-4 ring-white/10">
                 3
               </div>
               <h3 className="mb-2 text-xl font-bold">Apply Easily</h3>
@@ -211,8 +239,8 @@ export default function Home() {
               <div className="absolute right-0 top-8 hidden h-0.5 w-full -translate-x-1/2 bg-gradient-to-r from-purple-600 to-amber-500 md:block"></div>
             </div>
 
-            <div className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-amber-500 text-2xl font-bold text-white">
+            <div className="z-10 rounded-xl bg-card/50 p-6 text-center backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-card hover:shadow-lg">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-amber-500 text-2xl font-bold text-white shadow-lg shadow-purple-500/20 ring-4 ring-white/10">
                 4
               </div>
               <h3 className="mb-2 text-xl font-bold">Get Hired</h3>
@@ -239,7 +267,7 @@ export default function Home() {
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {/* Featured Job Card 1 */}
-            <Card className="overflow-hidden border-border bg-card transition-all duration-200 hover:border-purple-500/50 hover:shadow-md">
+            <Card className="overflow-hidden border-border bg-card transition-all duration-300 hover:-translate-y-2 hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/20">
               <CardContent className="p-0">
                 <div className="flex items-center gap-4 border-b border-border p-4">
                   <div className="h-12 w-12 overflow-hidden rounded-md bg-purple-100 dark:bg-purple-900/20">
@@ -275,7 +303,7 @@ export default function Home() {
             </Card>
 
             {/* Featured Job Card 2 */}
-            <Card className="overflow-hidden border-border bg-card transition-all duration-200 hover:border-purple-500/50 hover:shadow-md">
+            <Card className="overflow-hidden border-border bg-card transition-all duration-300 hover:-translate-y-2 hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/20">
               <CardContent className="p-0">
                 <div className="flex items-center gap-4 border-b border-border p-4">
                   <div className="h-12 w-12 overflow-hidden rounded-md bg-purple-100 dark:bg-purple-900/20">
@@ -311,7 +339,7 @@ export default function Home() {
             </Card>
 
             {/* Featured Job Card 3 */}
-            <Card className="overflow-hidden border-border bg-card transition-all duration-200 hover:border-purple-500/50 hover:shadow-md">
+            <Card className="overflow-hidden border-border bg-card transition-all duration-300 hover:-translate-y-2 hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/20">
               <CardContent className="p-0">
                 <div className="flex items-center gap-4 border-b border-border p-4">
                   <div className="h-12 w-12 overflow-hidden rounded-md bg-purple-100 dark:bg-purple-900/20">
@@ -361,7 +389,7 @@ export default function Home() {
 
           <div className="grid gap-8 md:grid-cols-3">
             {/* Testimonial 1 */}
-            <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border-2 border-purple-500/30 bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/20">
               <div className="mb-4 flex">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <Star key={star} className="h-5 w-5 fill-amber-500 text-amber-500" />
@@ -389,7 +417,7 @@ export default function Home() {
             </div>
 
             {/* Testimonial 2 */}
-            <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border-2 border-purple-500/30 bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/20">
               <div className="mb-4 flex">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <Star key={star} className="h-5 w-5 fill-amber-500 text-amber-500" />
@@ -417,7 +445,7 @@ export default function Home() {
             </div>
 
             {/* Testimonial 3 */}
-            <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border-2 border-purple-500/30 bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/20">
               <div className="mb-4 flex">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <Star key={star} className="h-5 w-5 fill-amber-500 text-amber-500" />
@@ -476,50 +504,116 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section className="bg-gradient-to-br from-purple-900/10 to-amber-700/10 py-20">
+      <section className="relative overflow-hidden bg-gradient-to-br from-purple-900/10 to-amber-700/10 py-20">
+        <div className="absolute -left-40 top-40 h-80 w-80 rounded-full bg-purple-500/10 blur-3xl"></div>
+        <div className="absolute -right-40 bottom-40 h-80 w-80 rounded-full bg-amber-500/10 blur-3xl"></div>
         <div className="container mx-auto px-4 sm:px-6">
           <div className="mx-auto mb-16 max-w-2xl text-center">
             <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">Frequently Asked Questions</h2>
             <p className="text-muted-foreground">Find answers to common questions about our platform and services.</p>
           </div>
 
-          <div className="mx-auto grid max-w-4xl gap-6">
+          <div className="mx-auto max-w-4xl">
             {/* FAQ Item 1 */}
-            <div className="rounded-xl border border-border bg-card p-6">
-              <h3 className="mb-2 text-xl font-bold">Is JobPortal completely free to use?</h3>
-              <p className="text-muted-foreground">
-                Yes, JobPortal is completely free for job seekers. You can create a profile, search for jobs, and apply
-                to as many positions as you want without any cost.
-              </p>
+            <div
+              className={`group mb-4 overflow-hidden rounded-xl border-2 ${openFaq === 0 ? "border-purple-500" : "border-purple-500/30"} bg-card/80 backdrop-blur-sm transition-all duration-300`}
+            >
+              <button
+                onClick={() => toggleFaq(0)}
+                className="flex w-full items-center justify-between p-6 text-left transition-all duration-300 hover:bg-purple-500/5"
+              >
+                <h3 className="text-xl font-bold">Is JobPortal completely free to use?</h3>
+                <div
+                  className={`ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-amber-500 text-white transition-transform duration-300 ${openFaq === 0 ? "rotate-90" : ""}`}
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </div>
+              </button>
+              <div
+                className={`px-6 overflow-hidden transition-all duration-300 ${openFaq === 0 ? "pb-6 max-h-40" : "max-h-0"}`}
+              >
+                <p className="text-muted-foreground">
+                  Yes, JobPortal is completely free for job seekers. You can create a profile, search for jobs, and
+                  apply to as many positions as you want without any cost.
+                </p>
+              </div>
             </div>
 
             {/* FAQ Item 2 */}
-            <div className="rounded-xl border border-border bg-card p-6">
-              <h3 className="mb-2 text-xl font-bold">How do I create an effective profile?</h3>
-              <p className="text-muted-foreground">
-                To create an effective profile, make sure to fill out all sections completely, upload a professional
-                resume, and highlight your key skills and experiences. The more complete your profile, the better your
-                job matches will be.
-              </p>
+            <div
+              className={`group mb-4 overflow-hidden rounded-xl border-2 ${openFaq === 1 ? "border-purple-500" : "border-purple-500/30"} bg-card/80 backdrop-blur-sm transition-all duration-300`}
+            >
+              <button
+                onClick={() => toggleFaq(1)}
+                className="flex w-full items-center justify-between p-6 text-left transition-all duration-300 hover:bg-purple-500/5"
+              >
+                <h3 className="text-xl font-bold">How do I create an effective profile?</h3>
+                <div
+                  className={`ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-amber-500 text-white transition-transform duration-300 ${openFaq === 1 ? "rotate-90" : ""}`}
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </div>
+              </button>
+              <div
+                className={`px-6 overflow-hidden transition-all duration-300 ${openFaq === 1 ? "pb-6 max-h-40" : "max-h-0"}`}
+              >
+                <p className="text-muted-foreground">
+                  To create an effective profile, make sure to fill out all sections completely, upload a professional
+                  resume, and highlight your key skills and experiences. The more complete your profile, the better your
+                  job matches will be.
+                </p>
+              </div>
             </div>
 
             {/* FAQ Item 3 */}
-            <div className="rounded-xl border border-border bg-card p-6">
-              <h3 className="mb-2 text-xl font-bold">Can I get notified about new job postings?</h3>
-              <p className="text-muted-foreground">
-                Yes, you can set up job alerts based on your preferences. You'll receive notifications when new jobs
-                matching your criteria are posted, ensuring you never miss an opportunity.
-              </p>
+            <div
+              className={`group mb-4 overflow-hidden rounded-xl border-2 ${openFaq === 2 ? "border-purple-500" : "border-purple-500/30"} bg-card/80 backdrop-blur-sm transition-all duration-300`}
+            >
+              <button
+                onClick={() => toggleFaq(2)}
+                className="flex w-full items-center justify-between p-6 text-left transition-all duration-300 hover:bg-purple-500/5"
+              >
+                <h3 className="text-xl font-bold">Can I get notified about new job postings?</h3>
+                <div
+                  className={`ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-amber-500 text-white transition-transform duration-300 ${openFaq === 2 ? "rotate-90" : ""}`}
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </div>
+              </button>
+              <div
+                className={`px-6 overflow-hidden transition-all duration-300 ${openFaq === 2 ? "pb-6 max-h-40" : "max-h-0"}`}
+              >
+                <p className="text-muted-foreground">
+                  Yes, you can set up job alerts based on your preferences. You'll receive notifications when new jobs
+                  matching your criteria are posted, ensuring you never miss an opportunity.
+                </p>
+              </div>
             </div>
 
             {/* FAQ Item 4 */}
-            <div className="rounded-xl border border-border bg-card p-6">
-              <h3 className="mb-2 text-xl font-bold">How can I track my job applications?</h3>
-              <p className="text-muted-foreground">
-                Once you apply for a job through JobPortal, you can track the status of your application in the "My
-                Applications" section of your profile. You'll see updates as your application progresses through the
-                hiring process.
-              </p>
+            <div
+              className={`group mb-4 overflow-hidden rounded-xl border-2 ${openFaq === 3 ? "border-purple-500" : "border-purple-500/30"} bg-card/80 backdrop-blur-sm transition-all duration-300`}
+            >
+              <button
+                onClick={() => toggleFaq(3)}
+                className="flex w-full items-center justify-between p-6 text-left transition-all duration-300 hover:bg-purple-500/5"
+              >
+                <h3 className="text-xl font-bold">How can I track my job applications?</h3>
+                <div
+                  className={`ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-amber-500 text-white transition-transform duration-300 ${openFaq === 3 ? "rotate-90" : ""}`}
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </div>
+              </button>
+              <div
+                className={`px-6 overflow-hidden transition-all duration-300 ${openFaq === 3 ? "pb-6 max-h-40" : "max-h-0"}`}
+              >
+                <p className="text-muted-foreground">
+                  Once you apply for a job through JobPortal, you can track the status of your application in the "My
+                  Applications" section of your profile. You'll see updates as your application progresses through the
+                  hiring process.
+                </p>
+              </div>
             </div>
           </div>
         </div>
