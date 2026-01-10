@@ -1,4 +1,4 @@
-Step 1 : git clone "url"
+Step 1 : git clone 
 Step 2 : npm install --legacy-peer-deps or npm install --force
 Step 3 : npm run dev
 In this way the application will run locally
