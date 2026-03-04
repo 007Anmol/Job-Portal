@@ -8,3 +8,5 @@ THOUGHT PROCESS:
 i) Landing Page with an intutive HERO section with a wavy background using framer motion
 ii) CTA section,Testominals and a purple-gold gradients in all highlight elements maintaining design consistency
 iii) 2 Pages- Job and Profile matching the exact requirements as mentioned
+
+CODEROUND AI TASK
